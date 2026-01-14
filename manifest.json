@@ -2,7 +2,8 @@
   "name": "小K视频",
   "short_name": "小K视频",
   "description": "每日推荐精彩短视频，JK、热舞、穿搭、清纯等分类",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#1a1a1a",
   "theme_color": "#ff6b6b",
@@ -23,12 +24,5 @@
   ],
   "categories": ["entertainment", "video"],
   "prefer_related_applications": false,
-  "related_applications": [],
-  "screenshots": [
-    {
-      "src": "https://via.placeholder.com/1080x1920/1a1a1a/ff6b6b?text=小K视频\n精彩短视频",
-      "sizes": "1080x1920",
-      "type": "image/png"
-    }
-  ]
+  "related_applications": []
 }
