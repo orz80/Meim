@@ -1,11 +1,11 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="https://tx.2cnm.cn/tp/wywl.png">
+    <!-- 添加 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title> 小K源码网演示站  www.xkwo.com</title>
     <style>
         :root {
@@ -170,10 +170,19 @@
             font-weight: 600;
         }
 
-        .icon-img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
+        /* Font Awesome 图标样式 */
+        .fa-icon {
+            font-size: 24px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .fa-heart {
+            color: #ccc;
+        }
+        
+        .fa-heart.active {
+            color: #ff6b6b;
         }
 
         .video-wrapper {
@@ -243,8 +252,8 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .like-btn.active .icon-img {
-            filter: brightness(0) saturate(100%) invert(58%) sepia(85%) saturate(4921%) hue-rotate(325deg) brightness(101%) contrast(101%);
+        .like-btn.active .fa-heart {
+            color: #ff6b6b;
             animation: pulse 0.5s;
         }
 
@@ -318,11 +327,8 @@
         }
 
         .qq-icon {
-            width: 24px;
-            height: 24px;
-            background-image: url('https://tx.2cnm.cn/tp/qq.png');
-            background-size: contain;
-            background-repeat: no-repeat;
+            font-size: 24px;
+            color: #fff;
         }
 
         .heart-effect {
@@ -362,6 +368,9 @@
                 width: 40px;
                 height: 40px;
             }
+            .fa-icon {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -394,24 +403,24 @@
             <div class="floating-controls">
                 <div class="control-group">
                     <button class="control-btn like-btn" id="likeBtn">
-                        <img id="likeIcon" class="icon-img" alt="点赞">
+                        <i class="fas fa-heart fa-icon" id="likeIcon"></i>
                     </button>
                     <button class="control-btn" id="qqBtn">
-                        <div class="qq-icon"></div>
+                        <i class="fab fa-qq qq-icon" id="qqIcon"></i>
                     </button>
                 </div>
                 <div class="control-group">
                     <button class="control-btn sound-btn" id="soundBtn">
-                        <img id="soundIcon" class="icon-img" alt="声音">
+                        <i class="fas fa-volume-mute fa-icon" id="soundIcon"></i>
                     </button>
                     <button class="control-btn" id="nextBtn">
-                        <img id="nextIcon" class="icon-img" alt="下一个">
+                        <i class="fas fa-step-forward fa-icon" id="nextIcon"></i>
                     </button>
                 </div>
             </div>
         </div>
         <div class="loading-spinner" id="loadingSpinner">
-            <img id="spinnerIcon" class="icon-img spinner" alt="加载中">
+            <i class="fas fa-spinner fa-spin" id="spinnerIcon"></i>
         </div>
     </div>
 
@@ -424,11 +433,11 @@
         const likeBtn = document.getElementById('likeBtn');
         const likeIcon = document.getElementById('likeIcon');
         const qqBtn = document.getElementById('qqBtn');
+        const qqIcon = document.getElementById('qqIcon');
         const nextBtn = document.getElementById('nextBtn');
         const nextIcon = document.getElementById('nextIcon');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const spinnerIcon = document.getElementById('spinnerIcon');
-        // ... existing code ...
         
         // 视频源配置
         const apiBaseUrl = 'https://api.5k4.cn/api/sjxjj';
@@ -457,19 +466,6 @@
             baisi: '白丝'
         };
 
-        // 图标URL定义
-        const iconUrls = {
-            female: 'https://tx.2cnm.cn/tp/nusheng.png',
-            male: 'https://tx.2cnm.cn/tp/nansheng.png',
-            heart: 'https://tx.2cnm.cn/tp/mdz.png',
-            heartSolid: 'https://tx.2cnm.cn/tp/ydz.png',
-            soundOn: 'https://tx.2cnm.cn/tp/ys.png',
-            soundOff: 'https://tx.2cnm.cn/tp/jy.png',
-            next: 'https://tx.2cnm.cn/tp/xyg.png',
-            spinner: 'https://tx.2cnm.cn/tp/jzz.png',
-            qq: 'https://tx.2cnm.cn/tp/qq.png'
-        };
-
         // 当前分类状态（默认为JK）
         let currentCategory = 'jk';
         // 保存静音状态
@@ -483,21 +479,8 @@
         let isSwiping = false;
         const SWIPE_THRESHOLD = 40; // 滑动阈值改为40像素
         
-        // 初始化图标
-        function initIcons() {
-            likeIcon.src = iconUrls.heart;
-            soundIcon.src = iconUrls.soundOff;
-            nextIcon.src = iconUrls.next;
-            spinnerIcon.src = iconUrls.spinner;
-        }
-        
-        // 初始化图标
-        initIcons();
-        
         // 初始化时加载第一个视频
         loadVideo();
-
-
 
         // 加载新视频
         function loadVideo() {
@@ -539,7 +522,8 @@
                         
                         // 重置点赞状态
                         likeBtn.classList.remove('active');
-                        likeIcon.src = iconUrls.heart;
+                        likeIcon.classList.remove('fas', 'fa-heart');
+                        likeIcon.classList.add('far', 'fa-heart');
                         
                         // 更新声音图标
                         updateSoundIcon();
@@ -647,11 +631,6 @@
             }, 3000);
         }
         
-        // 切换模式（男生视频）
-        // function toggleGenderMode() {
-        //     switchCategory('male');
-        // }
-
         // 视频结束自动播放下一个
         videoElement.addEventListener('ended', function() {
             loadVideo();
@@ -670,9 +649,11 @@
         // 更新声音图标状态
         function updateSoundIcon() {
             if (isMuted) {
-                soundIcon.src = iconUrls.soundOff;
+                soundIcon.classList.remove('fa-volume-up');
+                soundIcon.classList.add('fa-volume-mute');
             } else {
-                soundIcon.src = iconUrls.soundOn;
+                soundIcon.classList.remove('fa-volume-mute');
+                soundIcon.classList.add('fa-volume-up');
             }
         }
 
@@ -683,14 +664,16 @@
         likeBtn.addEventListener('click', function() {
             this.classList.toggle('active');
             if (this.classList.contains('active')) {
-                likeIcon.src = iconUrls.heartSolid;
+                likeIcon.classList.remove('far', 'fa-heart');
+                likeIcon.classList.add('fas', 'fa-heart');
                 // 点赞动画效果
                 this.style.animation = 'pulse 0.5s';
                 setTimeout(() => {
                     this.style.animation = '';
                 }, 500);
             } else {
-                likeIcon.src = iconUrls.heart;
+                likeIcon.classList.remove('fas', 'fa-heart');
+                likeIcon.classList.add('far', 'fa-heart');
             }
         });
 
@@ -709,11 +692,9 @@
         videoElement.addEventListener('dblclick', function(event) {
             likeBtn.click();
             // 添加视觉反馈
-            const effect = document.createElement('img');
+            const effect = document.createElement('div');
             effect.className = 'heart-effect';
-            effect.src = iconUrls.heartSolid;
-            effect.style.width = '60px';
-            effect.style.height = '60px';
+            effect.innerHTML = '<i class="fas fa-heart"></i>';
             effect.style.top = `${event.clientY}px`;
             effect.style.left = `${event.clientX}px`;
             
@@ -739,11 +720,6 @@
         videoElement.addEventListener('error', () => {
             loadingSpinner.style.display = 'none';
         });
-        
-        // ... existing code ...
-        
-        // 添加模式切换监听（已禁用）
-        // genderToggle.addEventListener('click', toggleGenderMode);
         
         // 分类按钮点击事件
         document.querySelectorAll('.category-btn').forEach(btn => {
