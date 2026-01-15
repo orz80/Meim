@@ -20,11 +20,7 @@
             --secondary-color: #4ecdc4;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: #000000 !important;
@@ -47,7 +43,7 @@
             flex-direction: column;
         }
         
-        /* 分类导航条 */
+        /* 导航条 */
         .category-selector {
             position: fixed;
             top: env(safe-area-inset-top, 0px);
@@ -55,11 +51,11 @@
             transform: translateX(-50%);
             width: 95%;
             max-width: 580px;
-            background: rgba(40, 40, 40, 0.6); /* 略微加深背景增加对比度 */
+            background: rgba(40, 40, 40, 0.6);
             border-radius: 12px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            z-index: 1000; /* 确保在最上层 */
+            z-index: 1000;
             padding: 6px;
             display: flex;
             align-items: center;
@@ -74,11 +70,9 @@
             color: rgba(255,255,255,0.7);
             padding: 8px 0;
             border-radius: 8px;
-            cursor: pointer;
             font-size: 13px;
             white-space: nowrap;
             text-align: center;
-            transition: all 0.2s;
         }
         
         .category-btn.active {
@@ -87,11 +81,7 @@
             font-weight: bold;
         }
         
-        .category-dropdown {
-            position: relative;
-            display: flex;
-        }
-
+        .category-dropdown { position: relative; display: flex; }
         .dropdown-toggle {
             padding: 8px 10px;
             color: #fff;
@@ -99,36 +89,25 @@
             border-radius: 8px;
             border: none;
             font-size: 12px;
-            white-space: nowrap;
         }
 
-        /* 修复：下拉菜单显示不全的问题 */
         .dropdown-menu {
             position: absolute;
-            top: 120%; /* 距离上方按钮留出间隙 */
+            top: 120%;
             right: 0;
-            background: rgba(30, 30, 30, 0.98); /* 提高不透明度 */
+            background: rgba(30, 30, 30, 0.98);
             border-radius: 12px;
             padding: 6px;
             display: none;
             flex-direction: column;
             min-width: 120px;
-            max-height: 300px; /* 限制最大高度 */
-            overflow-y: auto; /* 内容过多时可滚动 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            max-height: 300px;
+            overflow-y: auto;
             border: 1px solid rgba(255,255,255,0.1);
-            z-index: 2000; /* 比导航条更高的层级 */
+            z-index: 2000;
         }
         
-        .dropdown-menu.show { 
-            display: flex; 
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .dropdown-menu.show { display: flex; }
 
         .dropdown-item {
             padding: 12px 15px;
@@ -136,13 +115,7 @@
             border: none;
             background: transparent;
             text-align: left;
-            border-radius: 8px;
             font-size: 14px;
-            white-space: nowrap;
-        }
-
-        .dropdown-item:active {
-            background: var(--primary-color);
         }
 
         /* 视频主体 */
@@ -156,11 +129,7 @@
             z-index: 1;
         }
 
-        #video-element {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-        }
+        #video-element { width: 100%; height: 100%; object-fit: cover; }
 
         .floating-controls {
             position: absolute;
@@ -173,11 +142,7 @@
             z-index: 10;
         }
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        .control-group { display: flex; flex-direction: column; gap: 15px; }
 
         .control-btn {
             background: rgba(0, 0, 0, 0.4);
@@ -186,7 +151,6 @@
             height: 50px;
             border-radius: 50%;
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             color: #fff;
             display: flex;
             align-items: center;
@@ -204,20 +168,41 @@
             display: none;
         }
 
-        .floating-text {
-            position: absolute;
-            top: calc(env(safe-area-inset-top, 0px) + 80px);
+        /* 安卓安装横幅样式 */
+        #androidInstallBanner {
+            position: fixed;
+            top: calc(env(safe-area-inset-top, 0px) + 75px);
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.4);
-            font-size: 11px;
-            z-index: 5;
-            letter-spacing: 1px;
+            width: 90%;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1500;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+            display: none; /* 初始隐藏 */
         }
 
-        /* 隐藏滚动条 */
-        .dropdown-menu::-webkit-scrollbar {
-            width: 0px;
+        /* iOS 指引气泡样式 */
+        #iosPrompt {
+            position: fixed;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+            left: 15px;
+            right: 15px;
+            background: rgba(40, 40, 40, 0.95);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            z-index: 9999;
+            display: none; /* 初始隐藏 */
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
@@ -239,35 +224,33 @@
                 </div>
             </div>
         </div>
-        
-        <div class="floating-text">—— 上滑切换视频 ——</div>
 
+        <div id="androidInstallBanner">🚀 点击此处安装到桌面，体验更佳</div>
+
+        <div id="iosPrompt">
+            <div style="font-size: 13px; line-height: 1.5;">
+                想要像 App 一样全屏播放？<br>
+                点击下方分享按钮 <i class="far fa-share-square"></i><br>
+                然后选择“<strong>添加到主屏幕</strong>”
+            </div>
+            <button id="closeIos" style="background:none; border:none; color:var(--primary-color); font-weight:bold; padding-left:15px;">知道了</button>
+        </div>
+        
         <div class="video-wrapper" id="videoWrapper">
             <video id="video-element" playsinline autoplay muted loop></video>
-            
             <div class="floating-controls">
                 <div class="control-group">
-                    <button class="control-btn" id="likeBtn">
-                        <i class="far fa-heart" id="likeIcon" style="font-size: 24px;"></i>
-                    </button>
-                    <button class="control-btn" onclick="window.open('https://www.baidu.com')">
-                        <i class="fab fa-qq" style="font-size: 24px;"></i>
-                    </button>
+                    <button class="control-btn" id="likeBtn"><i class="far fa-heart" id="likeIcon" style="font-size: 24px;"></i></button>
+                    <button class="control-btn" onclick="window.open('https://www.baidu.com')"><i class="fab fa-qq" style="font-size: 24px;"></i></button>
                 </div>
                 <div class="control-group">
-                    <button class="control-btn" id="soundBtn">
-                        <i class="fas fa-volume-mute" id="soundIcon" style="font-size: 22px;"></i>
-                    </button>
-                    <button class="control-btn" id="nextBtn">
-                        <i class="fas fa-step-forward" style="font-size: 22px;"></i>
-                    </button>
+                    <button class="control-btn" id="soundBtn"><i class="fas fa-volume-mute" id="soundIcon" style="font-size: 22px;"></i></button>
+                    <button class="control-btn" id="nextBtn"><i class="fas fa-step-forward" style="font-size: 22px;"></i></button>
                 </div>
             </div>
         </div>
 
-        <div class="loading-spinner" id="loadingSpinner">
-            <i class="fas fa-spinner fa-spin"></i>
-        </div>
+        <div class="loading-spinner" id="loadingSpinner"><i class="fas fa-spinner fa-spin"></i></div>
     </div>
 
     <script>
@@ -292,38 +275,23 @@
                 if(data.code === 200) {
                     video.src = data.data.videoUrl;
                     video.muted = isMuted;
-                    video.play().catch(e => console.log("播放被拦截"));
-                    
-                    // 重置点赞状态
-                    likeBtn.classList.remove('active');
-                    likeIcon.className = 'far fa-heart';
-                    likeIcon.style.color = '#fff';
+                    video.play();
                 }
-            } catch (e) {
-                console.error("API请求失败");
-            }
+            } catch (e) { console.error("API失败"); }
         }
 
         video.onplaying = () => loading.style.display = 'none';
         video.onwaiting = () => loading.style.display = 'block';
-
         soundBtn.onclick = () => {
             isMuted = !isMuted;
             video.muted = isMuted;
             soundIcon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
         };
-
         nextBtn.onclick = loadVideo;
-
         likeBtn.onclick = () => {
-            const isActive = likeBtn.classList.toggle('active');
-            if(isActive) {
-                likeIcon.className = 'fas fa-heart';
-                likeIcon.style.color = '#ff6b6b';
-            } else {
-                likeIcon.className = 'far fa-heart';
-                likeIcon.style.color = '#fff';
-            }
+            const active = likeBtn.classList.toggle('active');
+            likeIcon.className = active ? 'fas fa-heart' : 'far fa-heart';
+            likeIcon.style.color = active ? '#ff6b6b' : '#fff';
         };
 
         // 手势切换
@@ -333,37 +301,61 @@
             if (touchY - e.changedTouches[0].clientY > 50) loadVideo();
         });
 
-        // 分类切换逻辑
+        // 分类切换
         document.querySelectorAll('[data-category]').forEach(btn => {
             btn.onclick = (e) => {
                 e.stopPropagation();
                 currentCategory = btn.getAttribute('data-category');
-                
-                // 更新主按钮激活状态
-                document.querySelectorAll('.category-btn').forEach(b => {
-                    b.classList.toggle('active', b.getAttribute('data-category') === currentCategory);
-                });
-                
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-category') === currentCategory));
                 loadVideo();
                 document.getElementById('dropdownMenu').classList.remove('show');
             };
         });
 
-        // 更多菜单切换
         document.getElementById('dropdownToggle').onclick = (e) => {
             e.stopPropagation();
             document.getElementById('dropdownMenu').classList.toggle('show');
         };
+        window.onclick = () => document.getElementById('dropdownMenu').classList.remove('show');
 
-        // 点击空白处关闭菜单
-        window.onclick = () => {
-            document.getElementById('dropdownMenu').classList.remove('show');
+        // ================= PWA 安装引导逻辑 =================
+        
+        // 1. 安卓安装逻辑
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // 显示安卓安装按钮
+            document.getElementById('androidInstallBanner').style.display = 'block';
+        });
+
+        document.getElementById('androidInstallBanner').onclick = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('androidInstallBanner').style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
         };
 
-        // PWA 注册脚本 (GitHub Pages 必须)
+        // 2. iOS 安装引导逻辑
+        const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+        const isStandalone = ('standalone' in window.navigator) && (window.navigator.standalone);
+
+        if (isIos && !isStandalone) {
+            document.getElementById('iosPrompt').style.display = 'flex';
+        }
+
+        document.getElementById('closeIos').onclick = () => {
+            document.getElementById('iosPrompt').style.display = 'none';
+        };
+
+        // 3. 注册 Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW失败', err));
+                navigator.serviceWorker.register('./sw.js');
             });
         }
 
