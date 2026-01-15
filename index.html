@@ -3,32 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="https://tx.2cnm.cn/tp/wywl.png">
     
-    <!-- PWA 必需配置 -->
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff6b6b">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="小K视频">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="msapplication-TileColor" content="#ff6b6b">
-    <meta name="application-name" content="小K视频">
-    <meta name="description" content="每日推荐精彩短视频，JK、热舞、穿搭、清纯等分类">
-    
-    <!-- PWA Manifest - 使用绝对路径 -->
-    <!-- 如果你的仓库是 username.github.io，使用 "/manifest.json" -->
-    <!-- 如果你的仓库是 username.github.io/repo-name，使用 "/repo-name/manifest.json" -->
-    <link rel="manifest" href="manifest.json" id="manifestLink">
-    
-    <!-- iOS 图标 - 使用绝对路径 -->
-    <link rel="apple-touch-icon" sizes="180x180" href="https://tx.2cnm.cn/tp/wywl.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://tx.2cnm.cn/tp/wywl.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://tx.2cnm.cn/tp/wywl.png">
-    <link rel="icon" href="https://tx.2cnm.cn/tp/wywl.png">
-    
-    <!-- 添加 Font Awesome 图标库 -->
+    <link rel="apple-touch-icon" href="https://tx.2cnm.cn/tp/wywl.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <title>小K视频 - 精彩短视频推荐</title>
+    <title> 小K源码网演示站  www.xkwo.com</title>
     <style>
         :root {
             --primary-color: #ff6b6b;
@@ -57,50 +42,11 @@
             position: relative;
         }
         
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .app-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .install-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .install-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
-        }
-        
-        .install-btn.hidden {
-            display: none;
-        }
-        
-        /* 分类选择器 - 修改为横向滚动 */
+        /* 分类选择器 */
         .category-selector {
+            position: absolute;
+            top: 20px;
+            left: 20px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             backdrop-filter: blur(10px);
@@ -110,30 +56,6 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-            margin-bottom: 20px;
-        }
-        
-        .category-selector::-webkit-scrollbar {
-            height: 4px;
-        }
-        
-        .category-selector::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 2px;
-        }
-        
-        .category-selector::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-        }
-        
-        .category-selector::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
         }
         
         .category-btn {
@@ -150,7 +72,6 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            flex-shrink: 0;
         }
         
         .category-btn:hover {
@@ -167,7 +88,6 @@
         
         .category-dropdown {
             position: relative;
-            flex-shrink: 0;
         }
         
         .dropdown-toggle {
@@ -183,7 +103,6 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            white-space: nowrap;
         }
         
         .dropdown-toggle:hover {
@@ -207,7 +126,6 @@
             gap: 4px;
             max-height: 300px;
             overflow-y: auto;
-            z-index: 20;
         }
         
         .dropdown-menu.show {
@@ -236,30 +154,21 @@
             font-weight: 600;
         }
 
-        /* Font Awesome 图标样式 */
         .fa-icon {
             font-size: 24px;
             color: #fff;
             transition: all 0.3s ease;
         }
         
-        .fa-heart {
-            color: #ccc;
-        }
-        
-        .fa-heart.active {
-            color: #ff6b6b;
-        }
-
         .video-wrapper {
             position: relative;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             background: #000;
+            margin-top: 30px;
             aspect-ratio: 9/16;
             touch-action: pan-y;
-            margin-bottom: 20px;
         }
 
         #video-element {
@@ -318,11 +227,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .like-btn.active .fa-heart {
-            color: #ff6b6b;
-            animation: pulse 0.5s;
-        }
-
         .loading-spinner {
             position: absolute;
             top: 50%;
@@ -331,10 +235,6 @@
             font-size: 40px;
             color: var(--primary-color);
             display: none;
-        }
-
-        .spinner {
-            animation: fa-spin 2s infinite linear;
         }
 
         @keyframes fa-spin {
@@ -405,105 +305,19 @@
             pointer-events: none;
             animation: fadeOut 1s forwards;
         }
-        
-        /* PWA 安装提示样式 */
-        .pwa-install-prompt {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 15px;
-            display: none;
-            align-items: center;
-            gap: 15px;
-            z-index: 1000;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-            max-width: 90%;
-        }
-        
-        .pwa-install-prompt.show {
-            display: flex;
-            animation: popIn 0.3s ease-out;
-        }
-        
-        .pwa-install-prompt .app-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-        
-        .pwa-install-prompt .prompt-text {
-            flex: 1;
-        }
-        
-        .pwa-install-prompt .prompt-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .pwa-install-prompt .prompt-desc {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-        
-        .pwa-install-prompt .prompt-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .pwa-install-prompt .prompt-btn {
-            padding: 8px 15px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .pwa-install-prompt .prompt-install {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .pwa-install-prompt .prompt-later {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .pwa-install-prompt .prompt-close {
-            background: transparent;
-            color: #999;
-            font-size: 20px;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
         @media (max-width: 480px) {
             .app-container {
-                padding: 15px;
+                padding: 10px;
             }
-            .header {
-                margin-bottom: 15px;
+            .video-wrapper {
+                margin-top: 70px;
             }
-            .app-title {
-                font-size: 18px;
-            }
-            .install-btn {
-                padding: 6px 12px;
-                font-size: 12px;
+            .category-selector {
+                top: 15px;
+                left: 15px;
+                flex-wrap: wrap;
+                max-width: calc(100% - 20px);
             }
             .category-btn,
             .dropdown-toggle {
@@ -517,91 +331,12 @@
             .fa-icon {
                 font-size: 20px;
             }
-            .pwa-install-prompt {
-                padding: 12px 15px;
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            .pwa-install-prompt .prompt-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-        
-        /* 添加一个指示器，提示可以横向滚动 */
-        .scroll-hint {
-            position: absolute;
-            top: 50%;
-            right: 5px;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-            display: none;
-        }
-        
-        /* 当内容溢出时显示滚动提示 */
-        .category-selector.scrollable .scroll-hint {
-            display: block;
-        }
-        
-        /* 离线状态指示器 */
-        .offline-indicator {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            display: none;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .offline-indicator.show {
-            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- 离线状态指示器 -->
-    <div class="offline-indicator" id="offlineIndicator">
-        <i class="fas fa-wifi-slash"></i> 离线模式
-    </div>
-    
-    <!-- PWA 安装提示 -->
-    <div class="pwa-install-prompt" id="installPrompt">
-        <div class="app-icon">
-            <i class="fas fa-play-circle"></i>
-        </div>
-        <div class="prompt-text">
-            <div class="prompt-title">安装小K视频</div>
-            <div class="prompt-desc">添加到主屏幕，离线观看，更流畅的体验</div>
-        </div>
-        <div class="prompt-actions">
-            <button class="prompt-btn prompt-install" id="installBtn">安装</button>
-            <button class="prompt-btn prompt-later" id="laterBtn">稍后</button>
-            <button class="prompt-btn prompt-close" id="closePromptBtn">&times;</button>
-        </div>
-    </div>
-    
     <div class="app-container">
-        <!-- 应用标题栏 -->
-        <div class="header">
-            <div class="app-title">
-                <i class="fas fa-play-circle"></i>
-                小K视频
-            </div>
-            <button class="install-btn hidden" id="installButton">
-                <i class="fas fa-download"></i>
-                安装应用
-            </button>
-        </div>
-        
-        <!-- 分类选择器 -->
-        <div class="category-selector" id="categorySelector">
+        <div class="category-selector">
             <button class="category-btn active" data-category="jk">🎀 JK</button>
             <button class="category-btn" data-category="rewu">💃 热舞</button>
             <button class="category-btn" data-category="chuanda">👗 穿搭</button>
@@ -618,8 +353,6 @@
                     <button class="dropdown-item" data-category="baisi">🤍 白丝</button>
                 </div>
             </div>
-            <!-- 滚动提示 -->
-            <div class="scroll-hint">▶</div>
         </div>
         
         <div class="floating-text">每日推荐精彩视频</div>
@@ -629,7 +362,7 @@
             <div class="floating-controls">
                 <div class="control-group">
                     <button class="control-btn like-btn" id="likeBtn">
-                        <i class="fas fa-heart fa-icon" id="likeIcon"></i>
+                        <i class="far fa-heart fa-icon" id="likeIcon"></i>
                     </button>
                     <button class="control-btn" id="qqBtn">
                         <i class="fab fa-qq qq-icon" id="qqIcon"></i>
@@ -648,179 +381,9 @@
         <div class="loading-spinner" id="loadingSpinner">
             <i class="fas fa-spinner fa-spin" id="spinnerIcon"></i>
         </div>
-        
-        <!-- 简单统计信息 -->
-        <div style="text-align: center; margin-top: 20px; opacity: 0.7; font-size: 14px;">
-            <div>今日推荐 <span id="videoCount">0</span> 个视频</div>
-            <div>已加载 <span id="loadedCount">0</span> 次</div>
-        </div>
     </div>
 
-    <!-- 重定向处理脚本 - 放在最前面执行 -->
     <script>
-        // 处理GitHub Pages添加到主屏幕后的重定向问题
-        (function() {
-            // 检查是否是iOS添加到主屏幕后访问
-            if (window.navigator.standalone) {
-                console.log('iOS添加到主屏幕模式');
-                
-                // 检查当前URL是否正确，如果404则重定向
-                if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
-                    console.log('检测到错误路径，正在重定向:', window.location.pathname);
-                    window.location.href = '/';
-                }
-            }
-            
-            // 处理从404页面重定向过来的情况
-            if (sessionStorage.redirect) {
-                console.log('从404页面重定向过来');
-                delete sessionStorage.redirect;
-            }
-        })();
-    </script>
-
-    <!-- Service Worker 注册和 PWA 功能 -->
-    <script>
-        // ========== PWA 相关功能 ==========
-        
-        // 检测是否在线
-        function updateOnlineStatus() {
-            const offlineIndicator = document.getElementById('offlineIndicator');
-            if (navigator.onLine) {
-                offlineIndicator.classList.remove('show');
-            } else {
-                offlineIndicator.classList.add('show');
-            }
-        }
-        
-        // 初始化在线状态检测
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-        updateOnlineStatus();
-        
-        // 修复manifest路径
-        function fixManifestPath() {
-            const manifestLink = document.getElementById('manifestLink');
-            if (manifestLink) {
-                // 获取当前页面路径
-                const currentPath = window.location.pathname;
-                const isRepoPage = currentPath.split('/').length > 2; // 检查是否在仓库子目录
-                
-                if (isRepoPage) {
-                    // 如果是仓库页面，重新设置manifest路径
-                    const repoName = currentPath.split('/')[1];
-                    manifestLink.href = '/' + repoName + '/manifest.json';
-                    console.log('修复manifest路径为:', manifestLink.href);
-                }
-            }
-        }
-        
-        // Service Worker 注册
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                // 修复manifest路径
-                fixManifestPath();
-                
-                // 注册Service Worker
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker 注册成功:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker 注册失败:', error);
-                        // 尝试使用相对路径注册
-                        navigator.serviceWorker.register('./service-worker.js')
-                            .then(registration => {
-                                console.log('Service Worker 使用相对路径注册成功:', registration.scope);
-                            })
-                            .catch(error2 => {
-                                console.log('Service Worker 相对路径注册也失败:', error2);
-                            });
-                    });
-            });
-        }
-        
-        // PWA 安装提示
-        let deferredPrompt;
-        const installButton = document.getElementById('installButton');
-        const installPrompt = document.getElementById('installPrompt');
-        const installBtn = document.getElementById('installBtn');
-        const laterBtn = document.getElementById('laterBtn');
-        const closePromptBtn = document.getElementById('closePromptBtn');
-        
-        // 监听 beforeinstallprompt 事件
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            
-            if (installButton) {
-                installButton.classList.remove('hidden');
-            }
-            
-            setTimeout(() => {
-                if (!localStorage.getItem('installPromptDismissed')) {
-                    installPrompt.classList.add('show');
-                }
-            }, 3000);
-        });
-        
-        // 安装按钮点击事件
-        if (installButton) {
-            installButton.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`用户安装选择: ${outcome}`);
-                    deferredPrompt = null;
-                    installButton.classList.add('hidden');
-                }
-            });
-        }
-        
-        // 自定义安装提示按钮事件
-        if (installBtn) {
-            installBtn.addEventListener('click', async () => {
-                installPrompt.classList.remove('show');
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`用户安装选择: ${outcome}`);
-                    deferredPrompt = null;
-                    if (installButton) installButton.classList.add('hidden');
-                }
-            });
-        }
-        
-        if (laterBtn) {
-            laterBtn.addEventListener('click', () => {
-                installPrompt.classList.remove('show');
-                localStorage.setItem('installPromptDismissed', 'true');
-                setTimeout(() => {
-                    localStorage.removeItem('installPromptDismissed');
-                }, 24 * 60 * 60 * 1000);
-            });
-        }
-        
-        if (closePromptBtn) {
-            closePromptBtn.addEventListener('click', () => {
-                installPrompt.classList.remove('show');
-                localStorage.setItem('installPromptDismissed', 'true');
-            });
-        }
-        
-        // 监听应用安装成功事件
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA 已成功安装');
-            if (installButton) installButton.classList.add('hidden');
-            if (installPrompt) installPrompt.classList.remove('show');
-            deferredPrompt = null;
-            
-            showNotification('应用已成功安装到桌面！');
-        });
-        
-        // ========== 视频播放功能 ==========
-        
-        // DOM元素引用
         const videoElement = document.getElementById('video-element');
         const videoWrapper = document.getElementById('videoWrapper');
         const soundBtn = document.getElementById('soundBtn');
@@ -828,16 +391,9 @@
         const likeBtn = document.getElementById('likeBtn');
         const likeIcon = document.getElementById('likeIcon');
         const qqBtn = document.getElementById('qqBtn');
-        const qqIcon = document.getElementById('qqIcon');
         const nextBtn = document.getElementById('nextBtn');
-        const nextIcon = document.getElementById('nextIcon');
         const loadingSpinner = document.getElementById('loadingSpinner');
-        const spinnerIcon = document.getElementById('spinnerIcon');
-        const categorySelector = document.getElementById('categorySelector');
-        const videoCount = document.getElementById('videoCount');
-        const loadedCount = document.getElementById('loadedCount');
         
-        // 视频源配置
         const apiBaseUrl = 'https://api.5k4.cn/api/sjxjj';
         const videoSources = {
             jk: apiBaseUrl + '?category=jk',
@@ -851,372 +407,124 @@
             baisi: apiBaseUrl + '?category=baisi'
         };
         
-        // 分类名称映射
         const categoryNames = {
-            jk: 'JK制服',
-            rewu: '热舞',
-            chuanda: '穿搭',
-            qingchun: '清纯',
-            nvda: '女大',
-            shejie: '御姐',
-            gaozhiliang: '高质量',
-            heisi: '黑丝',
-            baisi: '白丝'
+            jk: 'JK制服', rewu: '热舞', chuanda: '穿搭', qingchun: '清纯',
+            nvda: '女大', shejie: '御姐', gaozhiliang: '高质量', heisi: '黑丝', baisi: '白丝'
         };
 
-        // 当前分类状态
         let currentCategory = 'jk';
         let isMuted = true;
-        loadingSpinner.style.display = 'block';
-        let videoLoadedCount = 0;
-        
-        // 滑动手势相关变量
         let startY = 0;
-        let currentY = 0;
         let isSwiping = false;
         const SWIPE_THRESHOLD = 40;
-        
-        // 初始化时加载第一个视频
-        loadVideo();
-        
-        // 更新统计信息
-        function updateStats() {
-            if (videoCount) {
-                videoCount.textContent = Math.floor(Math.random() * 50) + 20;
-            }
-            if (loadedCount) {
-                loadedCount.textContent = videoLoadedCount;
-            }
-        }
-        
-        // 检查分类选择器是否需要滚动提示
-        function checkScrollable() {
-            const isScrollable = categorySelector.scrollWidth > categorySelector.clientWidth;
-            if (isScrollable) {
-                categorySelector.classList.add('scrollable');
-            } else {
-                categorySelector.classList.remove('scrollable');
-            }
-        }
-        
-        // 页面加载和窗口大小变化时检查
-        window.addEventListener('load', () => {
-            checkScrollable();
-            updateStats();
-        });
-        window.addEventListener('resize', checkScrollable);
 
-        // 加载新视频
+        loadVideo();
+
         function loadVideo() {
-            console.log('loadVideo被调用, 当前分类:', currentCategory);
             loadingSpinner.style.display = 'block';
-            
             const apiUrl = videoSources[currentCategory];
-            console.log('API URL:', apiUrl);
-            
-            if (!apiUrl) {
-                console.error('未找到分类接口:', currentCategory);
-                loadingSpinner.style.display = 'none';
-                return;
-            }
-            
             const fetchUrl = apiUrl + '&t=' + Date.now();
-            console.log('开始请求:', fetchUrl);
             
             fetch(fetchUrl)
-                .then(response => {
-                    console.log('收到响应:', response.status);
-                    if (!response.ok) {
-                        throw new Error(`HTTP 错误: ${response.status}`);
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    console.log('响应数据:', data);
                     if (data.code === 200 && data.data && data.data.videoUrl) {
-                        console.log('视频URL:', data.data.videoUrl);
                         videoElement.src = data.data.videoUrl;
                         videoElement.muted = isMuted;
-                        
-                        videoElement.play().catch(e => {
-                            console.log('自动播放被阻止:', e);
-                        });
+                        videoElement.play().catch(e => console.log('自动播放受阻'));
                         
                         likeBtn.classList.remove('active');
-                        likeIcon.classList.remove('fas', 'fa-heart');
-                        likeIcon.classList.add('far', 'fa-heart');
-                        
-                        updateSoundIcon();
-                        
-                        videoLoadedCount++;
-                        updateStats();
+                        likeIcon.className = 'far fa-heart fa-icon';
                     } else {
-                        console.error('视频获取失败:', data.msg || '未知错误', data);
-                        loadingSpinner.style.display = 'none';
-                        showErrorNotification('视频加载失败，请重试');
+                        showNotification('视频加载失败，请重试');
                     }
                 })
-                .catch(error => {
-                    console.error('接口请求失败:', error);
+                .catch(err => {
+                    showNotification('网络错误或API无法访问');
                     loadingSpinner.style.display = 'none';
-                    
-                    let errorMsg = 'API 基地址无效，请检查配置';
-                    if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
-                        errorMsg = 'API 接口无法访问，请检查网络或基地址';
-                    }
-                    showErrorNotification(errorMsg);
                 });
         }
 
-        // 切换分类
         function switchCategory(category) {
-            console.log('切换分类:', category, '当前分类:', currentCategory);
-            
-            if (category === currentCategory) {
-                console.log('已经是当前分类,不切换');
-                return;
-            }
-            
+            if (category === currentCategory) return;
             currentCategory = category;
-            console.log('新分类设置为:', currentCategory);
             
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelectorAll('.dropdown-item').forEach(item => {
-                item.classList.remove('active');
+            document.querySelectorAll('.category-btn, .dropdown-item').forEach(el => {
+                el.classList.toggle('active', el.getAttribute('data-category') === category);
             });
             
-            const activeBtn = document.querySelector(`[data-category="${category}"]`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-                console.log('已激活按钮:', category);
-            }
-            
-            console.log('开始加载视频...');
             loadVideo();
-            
-            showCategoryNotification(category);
-            
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            if (dropdownMenu) {
-                dropdownMenu.classList.remove('show');
-            }
+            showNotification(`已切换到【${categoryNames[category]}】`);
+            document.getElementById('dropdownMenu').classList.remove('show');
         }
         
-        // 显示分类切换通知
-        function showCategoryNotification(category) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            
-            const text = document.createElement('span');
-            text.textContent = `已切换到【${categoryNames[category]}】分类`;
-            text.style.color = '#fff';
-            text.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
-            
-            notification.appendChild(text);
-            document.body.appendChild(notification);
-            
+        function showNotification(msg) {
+            const n = document.createElement('div');
+            n.className = 'notification';
+            n.innerHTML = `<span>${msg}</span>`;
+            document.body.appendChild(n);
             setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transition = 'opacity 0.5s';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 500);
+                n.style.opacity = '0';
+                setTimeout(() => n.remove(), 500);
             }, 2000);
         }
-        
-        // 显示错误通知
-        function showErrorNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.style.background = 'rgba(255, 107, 107, 0.8)';
-            
-            const text = document.createElement('span');
-            text.textContent = message;
-            text.style.color = '#fff';
-            text.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
-            
-            notification.appendChild(text);
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transition = 'opacity 0.5s';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 500);
-            }, 3000);
-        }
-        
-        // 显示通用通知
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.style.background = 'rgba(78, 205, 196, 0.8)';
-            
-            const text = document.createElement('span');
-            text.textContent = message;
-            text.style.color = '#fff';
-            text.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
-            
-            notification.appendChild(text);
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transition = 'opacity 0.5s';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 500);
-            }, 2000);
-        }
-        
-        // 视频结束自动播放下一个
-        videoElement.addEventListener('ended', function() {
-            loadVideo();
-        });
 
-        // 声音按钮点击事件
-        soundBtn.addEventListener('click', function() {
+        videoElement.addEventListener('ended', loadVideo);
+        soundBtn.addEventListener('click', () => {
             isMuted = !isMuted;
             videoElement.muted = isMuted;
-            updateSoundIcon();
+            soundIcon.className = isMuted ? 'fas fa-volume-mute fa-icon' : 'fas fa-volume-up fa-icon';
         });
 
-        // 更新声音图标状态
-        function updateSoundIcon() {
-            if (isMuted) {
-                soundIcon.classList.remove('fa-volume-up');
-                soundIcon.classList.add('fa-volume-mute');
-            } else {
-                soundIcon.classList.remove('fa-volume-mute');
-                soundIcon.classList.add('fa-volume-up');
-            }
-        }
-
-        // 初始化声音图标
-        updateSoundIcon();
-
-        // 点赞按钮点击事件
-        likeBtn.addEventListener('click', function() {
-            this.classList.toggle('active');
-            if (this.classList.contains('active')) {
-                likeIcon.classList.remove('far', 'fa-heart');
-                likeIcon.classList.add('fas', 'fa-heart');
-                this.style.animation = 'pulse 0.5s';
-                setTimeout(() => {
-                    this.style.animation = '';
-                }, 500);
-            } else {
-                likeIcon.classList.remove('fas', 'fa-heart');
-                likeIcon.classList.add('far', 'fa-heart');
-            }
+        likeBtn.addEventListener('click', () => {
+            const active = likeBtn.classList.toggle('active');
+            likeIcon.className = active ? 'fas fa-heart fa-icon' : 'far fa-heart fa-icon';
         });
 
-        // QQ按钮点击事件
-        qqBtn.addEventListener('click', function() {
-            window.open('https://www.baidu.com');
+        qqBtn.addEventListener('click', () => window.open('https://www.baidu.com'));
+        nextBtn.addEventListener('click', loadVideo);
+
+        videoElement.addEventListener('dblclick', (e) => {
+            if (!likeBtn.classList.contains('active')) likeBtn.click();
+            const heart = document.createElement('div');
+            heart.className = 'heart-effect';
+            heart.innerHTML = '<i class="fas fa-heart"></i>';
+            heart.style.top = `${e.clientY}px`;
+            heart.style.left = `${e.clientX}px`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);
         });
 
-        // 下一个视频按钮
-        nextBtn.addEventListener('click', function() {
-            console.log('点击了下一个视频按钮');
-            loadVideo();
-        });
-
-        // 双击点赞功能
-        videoElement.addEventListener('dblclick', function(event) {
-            likeBtn.click();
-            const effect = document.createElement('div');
-            effect.className = 'heart-effect';
-            effect.innerHTML = '<i class="fas fa-heart"></i>';
-            effect.style.top = `${event.clientY}px`;
-            effect.style.left = `${event.clientX}px`;
-            
-            document.body.appendChild(effect);
-            setTimeout(() => {
-                document.body.removeChild(effect);
-            }, 1000);
-        });
-
-        // 加载状态处理
-        videoElement.addEventListener('waiting', () => {
-            loadingSpinner.style.display = 'block';
-        });
-
-        videoElement.addEventListener('playing', () => {
-            loadingSpinner.style.display = 'none';
-        });
-
-        videoElement.addEventListener('loadeddata', () => {
-            loadingSpinner.style.display = 'none';
+        videoElement.onplaying = () => loadingSpinner.style.display = 'none';
+        
+        document.querySelectorAll('.category-btn, .dropdown-item').forEach(btn => {
+            btn.addEventListener('click', (e) => switchCategory(btn.getAttribute('data-category')));
         });
         
-        videoElement.addEventListener('error', () => {
-            loadingSpinner.style.display = 'none';
-        });
-        
-        // 分类按钮点击事件
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const category = this.getAttribute('data-category');
-                console.log('分类按钮被点击:', category);
-                switchCategory(category);
-            });
-        });
-        
-        // 下拉菜单项点击事件
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const category = this.getAttribute('data-category');
-                console.log('下拉菜单项被点击:', category);
-                switchCategory(category);
-            });
-        });
-        
-        // 下拉菜单切换
-        document.getElementById('dropdownToggle').addEventListener('click', function(e) {
+        document.getElementById('dropdownToggle').onclick = (e) => {
             e.stopPropagation();
             document.getElementById('dropdownMenu').classList.toggle('show');
-        });
+        };
         
-        // 点击其他地方关闭下拉菜单
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('dropdownMenu');
-            const toggle = document.getElementById('dropdownToggle');
-            if (!dropdown.contains(e.target) && e.target !== toggle) {
-                dropdown.classList.remove('show');
-            }
-        });
+        window.onclick = () => document.getElementById('dropdownMenu').classList.remove('show');
 
-        // ========== 向上滑动切换视频功能 ==========
-        
-        // 滑动手势处理
-        videoWrapper.addEventListener('touchstart', function(e) {
-            startY = e.touches[0].clientY;
-            isSwiping = true;
-        });
-        
-        videoWrapper.addEventListener('touchmove', function(e) {
+        videoWrapper.ontouchstart = (e) => { startY = e.touches[0].clientY; isSwiping = true; };
+        videoWrapper.ontouchmove = (e) => {
             if (!isSwiping) return;
-            currentY = e.touches[0].clientY;
-            
-            const deltaY = startY - currentY;
-            
-            if (deltaY > SWIPE_THRESHOLD) {
+            if (startY - e.touches[0].clientY > SWIPE_THRESHOLD) {
                 loadVideo();
                 isSwiping = false;
             }
-        });
-        
-        videoWrapper.addEventListener('touchend', function() {
-            isSwiping = false;
-        });
+        };
+
+        // 注册 PWA Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed'));
+            });
+        }
     </script>
 </body>
 </html>
