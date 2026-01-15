@@ -8,12 +8,12 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="小K视频">
     <link rel="apple-touch-icon" href="https://tx.2cnm.cn/tp/wywl.png">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title> 小K源码网演示站  www.xkwo.com</title>
+    <title> 小K源码网演示站 </title>
     <style>
         :root {
             --primary-color: #ff6b6b;
@@ -26,188 +26,147 @@
             box-sizing: border-box;
         }
 
+        /* 核心修复：锁定 body 不滚动，使用全屏黑色 */
         body {
-            /* 强制背景为黑色，消除白块 */
             background: #000000 !important;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            touch-action: pan-y;
-            /* 适配刘海屏顶部 */
-            padding-top: env(safe-area-inset-top);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* 防止出现多余滚动条 */
+            display: flex;
+            flex-direction: column;
         }
 
+        /* 容器填充整个视口 */
         .app-container {
+            flex: 1;
+            width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
             position: relative;
-        }
-        
-        /* 分类选择器 */
-        .category-selector {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 10;
-            padding: 8px;
             display: flex;
-            align-items: center;
-            gap: 5px;
+            flex-direction: column;
         }
         
-        .category-btn {
+        /* 修复：导航条改为固定定位，确保在最上方 */
+        .category-selector {
+            position: fixed;
+            top: env(safe-area-inset-top, 0px); /* 紧贴刘海屏底部 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 580px;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid transparent;
-            color: #fff;
-            padding: 8px 12px;
             border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+            backdrop-filter: blur(15px);
+            z-index: 100;
+            padding: 6px;
             display: flex;
             align-items: center;
             gap: 4px;
+            margin-top: 10px; /* 距离顶部的微调 */
         }
         
-        .category-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3);
+        .category-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            padding: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            text-align: center;
         }
         
         .category-btn.active {
             background: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
             color: #fff;
-        }
-        
-        .category-dropdown {
-            position: relative;
+            font-weight: bold;
         }
         
         .dropdown-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid transparent;
+            padding: 8px 10px;
             color: #fff;
-            padding: 8px 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            margin-top: 5px;
-            background: rgba(30, 30, 30, 0.95);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            padding: 8px;
-            min-width: 120px;
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .dropdown-menu.show {
-            display: flex;
-        }
-        
-        .dropdown-item {
-            padding: 10px 12px;
-            color: #fff;
-            cursor: pointer;
+            background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            background: transparent;
             border: none;
-            text-align: left;
-        }
-        
-        .dropdown-item.active {
-            background: var(--primary-color);
-            font-weight: 600;
+            font-size: 12px;
         }
 
-        .fa-icon {
-            font-size: 24px;
-            color: #fff;
-            transition: all 0.3s ease;
+        .dropdown-menu {
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 12px;
+            padding: 8px;
+            display: none;
+            flex-direction: column;
+            min-width: 100px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         
+        .dropdown-menu.show { display: flex; }
+
+        .dropdown-item {
+            padding: 10px;
+            color: #fff;
+            border: none;
+            background: transparent;
+            text-align: left;
+            border-radius: 6px;
+        }
+
+        /* 修复：视频区域撑满屏幕，消除边框感 */
         .video-wrapper {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* 撑满全屏 */
             background: #000;
-            margin-top: 30px;
-            aspect-ratio: 9/16;
-            touch-action: pan-y;
+            z-index: 1;
         }
 
         #video-element {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
+            object-fit: cover; /* 像抖音一样全屏铺满 */
         }
 
+        /* 装饰边框在全屏模式下通常建议去掉或改淡，这里改为极淡的阴影 */
         .decorative-border {
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            right: -15px;
-            bottom: -15px;
-            border: 3px solid var(--primary-color);
-            border-radius: 30px;
-            opacity: 0.3;
-            pointer-events: none;
+            display: none; /* 建议关闭，减少杂乱感 */
         }
 
         .floating-controls {
             position: absolute;
-            bottom: 30px;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 30px); /* 适配底部小横条 */
             left: 20px;
             right: 20px;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            z-index: 10;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .control-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -218,229 +177,154 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 20;
             font-size: 40px;
             color: var(--primary-color);
             display: none;
+        }
+
+        .floating-text {
+            position: absolute;
+            top: calc(env(safe-area-inset-top, 0px) + 70px);
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            z-index: 5;
+        }
+
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 1000;
         }
 
         @keyframes fa-spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .floating-text {
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--secondary-color);
-            font-weight: bold;
-            animation: float 2s infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, 0px); }
-            50% { transform: translate(-50%, -10px); }
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 100;
-        }
-
-        .heart-effect {
-            position: absolute;
-            font-size: 60px;
-            color: var(--primary-color);
-            opacity: 0.8;
-            pointer-events: none;
-            animation: fadeOut 1s forwards;
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -150%) scale(2); }
-        }
-
-        @media (max-width: 480px) {
-            .video-wrapper {
-                margin-top: 70px;
-            }
-            .category-selector {
-                top: calc(env(safe-area-inset-top) + 15px);
-                left: 15px;
-                max-width: calc(100% - 30px);
-            }
-        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <div class="category-selector">
-            <button class="category-btn active" data-category="jk">🎀 JK</button>
-            <button class="category-btn" data-category="rewu">💃 热舞</button>
-            <button class="category-btn" data-category="chuanda">👗 穿搭</button>
-            <button class="category-btn" data-category="qingchun">🌸 清纯</button>
+            <button class="category-btn active" data-category="jk">JK</button>
+            <button class="category-btn" data-category="rewu">热舞</button>
+            <button class="category-btn" data-category="chuanda">穿搭</button>
+            <button class="category-btn" data-category="qingchun">清纯</button>
             <div class="category-dropdown">
-                <button class="dropdown-toggle" id="dropdownToggle">📂 更多 ▼</button>
+                <button class="dropdown-toggle" id="dropdownToggle">更多 ▼</button>
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <button class="dropdown-item" data-category="nvda">🎓 女大</button>
-                    <button class="dropdown-item" data-category="shejie">👑 御姐</button>
-                    <button class="dropdown-item" data-category="gaozhiliang">⭐ 高质量</button>
-                    <button class="dropdown-item" data-category="heisi">🖤 黑丝</button>
-                    <button class="dropdown-item" data-category="baisi">🤍 白丝</button>
+                    <button class="dropdown-item" data-category="nvda">女大</button>
+                    <button class="dropdown-item" data-category="shejie">御姐</button>
+                    <button class="dropdown-item" data-category="gaozhiliang">高质量</button>
+                    <button class="dropdown-item" data-category="heisi">黑丝</button>
                 </div>
             </div>
         </div>
         
-        <div class="floating-text">每日推荐精彩视频</div>
+        <div class="floating-text">上下滑动切换视频</div>
+
         <div class="video-wrapper" id="videoWrapper">
-            <div class="decorative-border"></div>
-            <video id="video-element" playsinline autoplay muted></video>
+            <video id="video-element" playsinline autoplay muted loop></video>
+            
             <div class="floating-controls">
                 <div class="control-group">
-                    <button class="control-btn like-btn" id="likeBtn">
-                        <i class="far fa-heart fa-icon" id="likeIcon"></i>
+                    <button class="control-btn" id="likeBtn">
+                        <i class="far fa-heart fa-icon" id="likeIcon" style="font-size: 22px;"></i>
                     </button>
-                    <button class="control-btn" id="qqBtn">
-                        <i class="fab fa-qq fa-icon"></i>
+                    <button class="control-btn" onclick="window.open('https://www.baidu.com')">
+                        <i class="fab fa-qq" style="font-size: 22px;"></i>
                     </button>
                 </div>
                 <div class="control-group">
-                    <button class="control-btn sound-btn" id="soundBtn">
-                        <i class="fas fa-volume-mute fa-icon" id="soundIcon"></i>
+                    <button class="control-btn" id="soundBtn">
+                        <i class="fas fa-volume-mute" id="soundIcon" style="font-size: 20px;"></i>
                     </button>
                     <button class="control-btn" id="nextBtn">
-                        <i class="fas fa-step-forward fa-icon"></i>
+                        <i class="fas fa-step-forward" style="font-size: 20px;"></i>
                     </button>
                 </div>
             </div>
         </div>
+
         <div class="loading-spinner" id="loadingSpinner">
             <i class="fas fa-spinner fa-spin"></i>
         </div>
     </div>
 
     <script>
-        const videoElement = document.getElementById('video-element');
-        const videoWrapper = document.getElementById('videoWrapper');
+        const video = document.getElementById('video-element');
         const soundBtn = document.getElementById('soundBtn');
         const soundIcon = document.getElementById('soundIcon');
-        const likeBtn = document.getElementById('likeBtn');
-        const likeIcon = document.getElementById('likeIcon');
         const nextBtn = document.getElementById('nextBtn');
-        const loadingSpinner = document.getElementById('loadingSpinner');
+        const loading = document.getElementById('loadingSpinner');
         
-        const apiBaseUrl = 'https://api.5k4.cn/api/sjxjj';
-        const videoSources = {
-            jk: apiBaseUrl + '?category=jk',
-            rewu: apiBaseUrl + '?category=rewu',
-            chuanda: apiBaseUrl + '?category=chuanda',
-            qingchun: apiBaseUrl + '?category=qingchun',
-            nvda: apiBaseUrl + '?category=nvda',
-            shejie: apiBaseUrl + '?category=shejie',
-            gaozhiliang: apiBaseUrl + '?category=gaozhiliang',
-            heisi: apiBaseUrl + '?category=heisi',
-            baisi: apiBaseUrl + '?category=baisi'
-        };
-        
-        const categoryNames = {
-            jk: 'JK制服', rewu: '热舞', chuanda: '穿搭', qingchun: '清纯',
-            nvda: '女大', shejie: '御姐', gaozhiliang: '高质量', heisi: '黑丝', baisi: '白丝'
-        };
-
         let currentCategory = 'jk';
         let isMuted = true;
-        let startY = 0;
-        let isSwiping = false;
 
-        function loadVideo() {
-            loadingSpinner.style.display = 'block';
-            fetch(videoSources[currentCategory] + '&t=' + Date.now())
-                .then(res => res.json())
-                .then(data => {
-                    if (data.code === 200) {
-                        videoElement.src = data.data.videoUrl;
-                        videoElement.muted = isMuted;
-                        videoElement.play().catch(() => {});
-                        likeBtn.classList.remove('active');
-                        likeIcon.className = 'far fa-heart fa-icon';
-                    }
-                })
-                .catch(() => loadingSpinner.style.display = 'none');
+        const getUrl = () => `https://api.5k4.cn/api/sjxjj?category=${currentCategory}&t=${Date.now()}`;
+
+        async function loadVideo() {
+            loading.style.display = 'block';
+            try {
+                const res = await fetch(getUrl());
+                const data = await res.json();
+                if(data.code === 200) {
+                    video.src = data.data.videoUrl;
+                    video.muted = isMuted;
+                    video.play();
+                }
+            } catch (e) {
+                console.error("加载失败");
+            }
         }
 
-        function switchCategory(cat) {
-            if (cat === currentCategory) return;
-            currentCategory = cat;
-            document.querySelectorAll('.category-btn, .dropdown-item').forEach(el => {
-                el.classList.toggle('active', el.getAttribute('data-category') === cat);
-            });
-            loadVideo();
-            showNotification(`已切换到【${categoryNames[cat]}】`);
-        }
-
-        function showNotification(msg) {
-            const n = document.createElement('div');
-            n.className = 'notification';
-            n.innerHTML = `<span>${msg}</span>`;
-            document.body.appendChild(n);
-            setTimeout(() => { n.style.opacity = '0'; setTimeout(() => n.remove(), 500); }, 2000);
-        }
-
-        videoElement.addEventListener('ended', loadVideo);
-        videoElement.onplaying = () => loadingSpinner.style.display = 'none';
+        video.onplaying = () => loading.style.display = 'none';
+        video.onwaiting = () => loading.style.display = 'block';
 
         soundBtn.onclick = () => {
             isMuted = !isMuted;
-            videoElement.muted = isMuted;
-            soundIcon.className = isMuted ? 'fas fa-volume-mute fa-icon' : 'fas fa-volume-up fa-icon';
+            video.muted = isMuted;
+            soundIcon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
         };
 
         nextBtn.onclick = loadVideo;
-        
-        likeBtn.onclick = () => {
-            const active = likeBtn.classList.toggle('active');
-            likeIcon.className = active ? 'fas fa-heart fa-icon' : 'far fa-heart fa-icon';
-        };
+
+        // 手势切换
+        let touchY = 0;
+        document.addEventListener('touchstart', e => touchY = e.touches[0].clientY);
+        document.addEventListener('touchend', e => {
+            if (touchY - e.changedTouches[0].clientY > 50) loadVideo();
+        });
+
+        // 分类切换
+        document.querySelectorAll('[data-category]').forEach(btn => {
+            btn.onclick = () => {
+                currentCategory = btn.getAttribute('data-category');
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.toggle('active', b === btn));
+                loadVideo();
+                document.getElementById('dropdownMenu').classList.remove('show');
+            };
+        });
 
         document.getElementById('dropdownToggle').onclick = (e) => {
             e.stopPropagation();
             document.getElementById('dropdownMenu').classList.toggle('show');
         };
 
-        document.querySelectorAll('.category-btn, .dropdown-item').forEach(btn => {
-            btn.onclick = () => switchCategory(btn.getAttribute('data-category'));
-        });
-
-        videoWrapper.ontouchstart = (e) => { startY = e.touches[0].clientY; isSwiping = true; };
-        videoWrapper.ontouchmove = (e) => {
-            if (isSwiping && startY - e.touches[0].clientY > 40) {
-                loadVideo();
-                isSwiping = false;
-            }
-        };
-
         window.onclick = () => document.getElementById('dropdownMenu').classList.remove('show');
-        loadVideo();
 
-        // 注册 PWA Service Worker
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(() => {});
-            });
+            window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
         }
+
+        loadVideo();
     </script>
 </body>
 </html>
