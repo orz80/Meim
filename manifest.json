@@ -1,28 +1,15 @@
 {
-  "name": "小K视频",
-  "short_name": "小K视频",
-  "description": "每日推荐精彩短视频，JK、热舞、穿搭、清纯等分类",
-  "start_url": "./",
-  "scope": "./",
+  "name": "小K源码网演示站",
+  "short_name": "小K演示",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a1a1a",
   "theme_color": "#ff6b6b",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "https://tx.2cnm.cn/tp/wywl.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://tx.2cnm.cn/tp/wywl.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ],
-  "categories": ["entertainment", "video"],
-  "prefer_related_applications": false,
-  "related_applications": []
+  ]
 }
